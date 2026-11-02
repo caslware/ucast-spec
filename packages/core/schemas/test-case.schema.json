@@ -1,0 +1,322 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ucast.dev/schemas/test-case.schema.json",
+  "title": "UCAST conformance suite",
+  "type": "object",
+  "required": [
+    "version",
+    "cases"
+  ],
+  "properties": {
+    "version": {
+      "const": "1.0"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "value": {
+      "oneOf": [
+        {
+          "type": [
+            "null",
+            "boolean",
+            "integer",
+            "string"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/value"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/value"
+          }
+        }
+      ]
+    },
+    "ast": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "compound"
+            },
+            "operator": {
+              "enum": [
+                "and",
+                "or",
+                "nor"
+              ]
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ast"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "compound"
+            },
+            "operator": {
+              "const": "not"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/ast"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "field",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "field"
+            },
+            "field": {
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "eq",
+                "ne",
+                "lt",
+                "lte",
+                "gt",
+                "gte",
+                "size"
+              ]
+            },
+            "value": {
+              "$ref": "#/$defs/value"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "field",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "field"
+            },
+            "field": {
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "exists"
+              ]
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "field",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "field"
+            },
+            "field": {
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "mod"
+              ]
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "field",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "field"
+            },
+            "field": {
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "within",
+                "in",
+                "nin",
+                "all"
+              ]
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/value"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "field",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "field"
+            },
+            "field": {
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "elemMatch"
+              ]
+            },
+            "value": {
+              "$ref": "#/$defs/ast"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "field",
+            "operator",
+            "value"
+          ],
+          "properties": {
+            "type": {
+              "const": "field"
+            },
+            "field": {
+              "type": "string"
+            },
+            "operator": {
+              "const": "regex"
+            },
+            "value": {
+              "type": "object",
+              "required": [
+                "pattern"
+              ],
+              "properties": {
+                "pattern": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "case": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "ast",
+        "subject",
+        "expected"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ast": {
+          "$ref": "#/$defs/ast"
+        },
+        "subject": {
+          "$ref": "#/$defs/value"
+        },
+        "expected": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "const": "error"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
