@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "cases": [
+    {"ast":{"field":"a","operator":"eq","type":"field","value":null},"description":"null does not match an own undefined field","expected":false,"id":"fixed-005","subject":{"a":{"$ucast":"undefined"}}},
+    {"ast":{"field":"__itself__","operator":"exists","type":"field","value":true},"description":"undefined root does not exist","expected":false,"id":"fixed-012","subject":{"$ucast":"undefined"}},
+    {"ast":{"field":"a","operator":"eq","type":"field","value":null},"description":"eq null for direct undefined value","expected":false,"id":"null-undefined-eq-direct","subject":{"a":{"$ucast":"undefined"}}},
+    {"ast":{"field":"a","operator":"ne","type":"field","value":null},"description":"ne null for direct undefined value","expected":true,"id":"null-undefined-ne-direct","subject":{"a":{"$ucast":"undefined"}}},
+    {"ast":{"field":"items.a","operator":"eq","type":"field","value":null},"description":"eq null for nested undefined value","expected":false,"id":"null-undefined-eq-nested","subject":{"items":{"a":{"$ucast":"undefined"}}}},
+    {"ast":{"field":"items.a","operator":"ne","type":"field","value":null},"description":"ne null for nested undefined value","expected":true,"id":"null-undefined-ne-nested","subject":{"items":{"a":{"$ucast":"undefined"}}}},
+    {"ast":{"field":"items.a","operator":"eq","type":"field","value":null},"description":"eq null for projected undefined value","expected":false,"id":"null-undefined-eq-projected","subject":{"items":[{"a":{"$ucast":"undefined"}}]}},
+    {"ast":{"field":"items.a","operator":"ne","type":"field","value":null},"description":"ne null for projected undefined value","expected":true,"id":"null-undefined-ne-projected","subject":{"items":[{"a":{"$ucast":"undefined"}}]}},
+    {"ast":{"field":"a","operator":"eq","type":"field","value":null},"description":"eq null for array-element undefined value","expected":false,"id":"null-undefined-eq-array-element","subject":{"a":[{"$ucast":"undefined"}]}},
+    {"ast":{"field":"a","operator":"ne","type":"field","value":null},"description":"ne null for array-element undefined value","expected":true,"id":"null-undefined-ne-array-element","subject":{"a":[{"$ucast":"undefined"}]}}
+  ]
+}

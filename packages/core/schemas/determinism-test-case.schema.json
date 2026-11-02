@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ucast.dev/schemas/determinism-test-case.schema.json",
+  "title": "UCAST determinism sequence suite",
+  "type": "object",
+  "required": [
+    "version",
+    "kind",
+    "cases"
+  ],
+  "properties": {
+    "version": {
+      "const": "1.0"
+    },
+    "kind": {
+      "const": "determinism"
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "conditions",
+        "subjects",
+        "steps"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conditions": {
+          "type": "object",
+          "required": [
+            "primary",
+            "interference"
+          ],
+          "properties": {
+            "primary": {
+              "$ref": "test-case.schema.json#/$defs/ast"
+            },
+            "interference": {
+              "$ref": "test-case.schema.json#/$defs/ast"
+            }
+          },
+          "additionalProperties": false
+        },
+        "subjects": {
+          "type": "object",
+          "required": [
+            "primary",
+            "interference"
+          ],
+          "properties": {
+            "primary": {
+              "$ref": "test-case.schema.json#/$defs/value"
+            },
+            "interference": {
+              "$ref": "test-case.schema.json#/$defs/value"
+            }
+          },
+          "additionalProperties": false
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 13,
+          "maxItems": 13,
+          "items": {
+            "$ref": "#/$defs/step"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "step": {
+      "type": "object",
+      "required": [
+        "condition",
+        "subject",
+        "cache",
+        "expected"
+      ],
+      "properties": {
+        "condition": {
+          "type": "string",
+          "enum": [
+            "primary",
+            "interference"
+          ]
+        },
+        "subject": {
+          "type": "string",
+          "enum": [
+            "primary",
+            "interference"
+          ]
+        },
+        "cache": {
+          "type": "boolean"
+        },
+        "expected": {
+          "$ref": "test-case.schema.json#/$defs/case/properties/expected"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

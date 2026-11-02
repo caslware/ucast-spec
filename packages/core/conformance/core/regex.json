@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "cases": [
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"cast"}},"description":"search","expected":true,"id":"regex-search","subject":{"name":"ucast"}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"^a"}},"description":"no match","expected":false,"id":"regex-no-match","subject":{"name":"beta"}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"^ucast"}},"description":"prefix","expected":true,"id":"regex-prefix","subject":{"name":"ucast-js"}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"cast$"}},"description":"suffix","expected":true,"id":"regex-suffix","subject":{"name":"ucast"}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"^(cat|dog)$"}},"description":"alternation","expected":true,"id":"regex-alternation","subject":{"name":"dog"}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"^[ab]+$"}},"description":"repetition","expected":true,"id":"regex-repetition","subject":{"name":"abba"}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"a"}},"description":"nonstring","expected":false,"id":"regex-nonstring","subject":{"name":12}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"a"}},"description":"null","expected":false,"id":"regex-null","subject":{"name":null}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"a"}},"description":"missing","expected":false,"id":"regex-missing","subject":{}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":""}},"description":"empty pattern","expected":true,"id":"regex-empty-pattern","subject":{"name":""}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"^a"}},"description":"array","expected":true,"id":"regex-array","subject":{"name":[null,3,"beta","alpha"]}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"12"}},"description":"no coercion","expected":false,"id":"regex-no-coercion","subject":{"name":[12,true,null]}},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"a"}},"description":"no recursive flatten","expected":false,"id":"regex-no-recursive-flatten","subject":{"name":[["a"]]}},
+    {"ast":{"field":"items.name","operator":"regex","type":"field","value":{"pattern":"^a"}},"description":"projection","expected":true,"id":"regex-projection","subject":{"items":[{"name":"beta"},{"name":"alpha"}]}},
+    {"ast":{"field":"__itself__","operator":"regex","type":"field","value":{"pattern":"^a"}},"description":"root","expected":true,"id":"regex-root","subject":"alpha"},
+    {"ast":{"field":"name","operator":"regex","type":"field","value":{"pattern":"a"}},"description":"falsy root error","expected":"error","id":"regex-falsy-root-error","subject":null},
+    {"ast":{"field":"items","operator":"elemMatch","type":"field","value":{"field":"__itself__","operator":"regex","type":"field","value":{"pattern":"^a"}}},"description":"nested","expected":true,"id":"regex-nested","subject":{"items":["beta","alpha"]}},
+    {"ast":{"operator":"not","type":"compound","value":[{"field":"name","operator":"regex","type":"field","value":{"pattern":"^a"}}]},"description":"negation","expected":true,"id":"regex-negation","subject":{"name":"beta"}},
+    {"ast":{"field":"__itself__","operator":"regex","type":"field","value":{"pattern":"12"}},"description":"regex does not coerce a numeric root to a string","expected":false,"id":"regex-numeric-root","subject":12}
+  ]
+}

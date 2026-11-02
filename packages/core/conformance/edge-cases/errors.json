@@ -1,0 +1,7 @@
+{
+  "version": "1.0",
+  "cases": [
+    {"ast":{"operator":"and","type":"compound","value":[{"field":"a","operator":"within","type":"field","value":[1]},{"operator":"or","type":"compound","value":[]}]},"description":"an evaluated lookup error propagates through and","expected":"error","id":"fixed-032","subject":null},
+    {"ast":{"field":"a","operator":"within","type":"field","value":[1]},"description":"the child skipped by the logical short-circuit fixtures errors when evaluated alone","expected":"error","id":"logic-error-witness","subject":null}
+  ]
+}
