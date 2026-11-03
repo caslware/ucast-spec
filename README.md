@@ -13,7 +13,6 @@ runner and tracer, configured through a package adapter.
 
 - [Core](packages/core/README.md) defines the common condition AST and bounded
   evaluator profile, including its 19 operators.
-- [Mongo](packages/mongo/README.md) defines Mongo query parsing into that AST.
 
 Language semantics and mapping to UCAST are separate contracts. Each language
 package specifies which constructs map to the common AST and how unsupported
@@ -131,5 +130,4 @@ racket tooling/run-fixed-tests.rkt --package packages/core --export
 Racket is an offline authoring dependency. Runtime validators consume the saved
 JSON fixtures without generating tests or launching Racket. See the
 [core README](packages/core/README.md) for coverage checks, custom generation
-outputs, and fixed-test authoring, and the [Mongo README](packages/mongo/README.md)
-for parser checks and generation. These bounded checks are not universal proofs.
+outputs, and fixed-test authoring.
