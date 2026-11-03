@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core-redex:
+    name: Core Redex validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Racket
+        uses: Bogdanp/setup-racket@v1.15
+        with:
+          # Match the toolchain used to generate the saved conformance corpus.
+          version: '9.3'
+          variant: CS
+          distribution: full
+
+      - name: Install Redex and RackUnit
+        run: raco pkg install --auto --skip-installed redex-lib rackunit-lib
+
+      - name: Test core model and tooling
+        run: raco test tooling/tests packages/core/formal packages/core/tests packages/core/tooling
+
+      - name: Check saved conformance cases and determinism sequences
+        run: racket packages/core/tooling/generate-tests.rkt --check
+
+      - name: Check evaluator coverage
+        run: racket packages/core/tooling/generate-tests.rkt --coverage packages/core/conformance/generated/coverage-based.json
