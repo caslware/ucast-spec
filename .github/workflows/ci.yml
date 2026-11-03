@@ -27,8 +27,8 @@ jobs:
           variant: CS
           distribution: full
 
-      - name: Install Redex and RackUnit
-        run: raco pkg install --auto --skip-installed redex-lib rackunit-lib
+      - name: Verify Redex and RackUnit
+        run: racket -e '(require redex/reduction-semantics rackunit)'
 
       - name: Test core model and tooling
         run: raco test tooling/tests packages/core/formal packages/core/tests packages/core/tooling
